@@ -45,10 +45,8 @@ class App extends React.Component {
           {this.state.followerCard.map ( (follower) => {
             return(
               <>
-                <h2>Name: {follower.name}</h2>
-                <h3>Username: {follower.login} </h3>
-                <h3>Location: {follower.location}</h3>
-                <h3>Bio: {follower.bio}</h3>
+                <img width='200' src={follower.avatar_url} key={follower.id} alt={follower.login}/>
+                <h2>Username: {follower.login}</h2>
               </>
               )
             
