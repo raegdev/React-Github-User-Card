@@ -4,6 +4,9 @@ import './App.css';
 import axios from 'axios';
 import styled from 'styled-components';
 
+
+// styles 
+
 const Title = styled.h1`
   font-size: 2em;
   text-align: center;
@@ -30,25 +33,51 @@ const Follower = styled.div`
   
 `;
 
+// app codes 
+
 class App extends React.Component {
 
   state = {
     userCard: [],
-    followerCard: []
+    followerCard: [],
+    userText: ''
   }
 
   componentDidMount(){
     console.log('cDM is running')
     //axios to pull data from github
-    axios.get('https://api.github.com/users/Rae-Glazier')
+    axios.get(`https://api.github.com/users/Rae-Glazier`)
       .then(res => {
         console.log(res);
 
         this.setState({ userCard: res.data });
       });
 
-    axios.get('https://api.github.com/users/Rae-Glazier/followers')  
+    axios.get(`https://api.github.com/users/Rae-Glazier/followers`)  
       .then(res => {
+        console.log(res);
+        this.setState({ followerCard: res.data })
+      })
+  }
+
+  handleChanges = e => {
+    this.setState({
+      userText: e.target.value
+    });
+  };
+
+  fetchUser = e => {
+    e.preventDefault();
+    axios.get(`https://api.github.com/users/${this.state.userText}`)
+      .then(res => {
+        console.log(res);
+
+        this.setState({ userCard: res.data });
+      });
+
+    axios.get(`https://api.github.com/users/${this.state.userText}/followers`)  
+      .then(res => {
+        console.log(res);
         this.setState({ followerCard: res.data })
       })
   }
@@ -58,7 +87,16 @@ class App extends React.Component {
     return (
       <div className="App">
         <Header>
-         <Title> Github User Card</Title>
+         <Title> Github User Cards </Title>
+         
+         {/* beginning of search form  */}
+
+         <input
+          type="text"
+          value={this.state.userText}
+          onChange={this.handleChanges}
+        />
+        <button onClick={this.fetchUser}>User Search</button>
         </Header>
         
         <Card>
@@ -70,6 +108,7 @@ class App extends React.Component {
         </Card>
         
         <Card>
+          <> <h1>{this.state.userCard.name}'s Followers</h1> </>
           {this.state.followerCard.map ( (follower) => {
             return(
               <Follower>
