@@ -105,6 +105,7 @@ class App extends React.Component {
           <h4>Username: {this.state.userCard.login} </h4>
           <h4>Location: {this.state.userCard.location}</h4>
           <h4>Bio: {this.state.userCard.bio}</h4>
+          <img src='http://ghchart.rshah.org/raegdev' alt="raegdev Github chart" />
         </Card>
         
         <Card>
